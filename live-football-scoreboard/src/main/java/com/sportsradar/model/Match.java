@@ -1,21 +1,34 @@
 package com.sportsradar.model;
 
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.Instant;
 
-@AllArgsConstructor
+@Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Match {
     @EqualsAndHashCode.Include
-    private String homeTeam;
+    private final String homeTeam;
+    @Setter
     private Integer homeTeamScore;
     @EqualsAndHashCode.Include
-    private String awayTeam;
+    private final String awayTeam;
+    @Setter
     private Integer awayTeamScore;
-    private Instant matchStart;
+    private final Instant matchStart;
     private Boolean isFinished;
+
+    public Match(String homeTeam, String awayTeam, Instant matchStart) {
+        this.homeTeam = homeTeam;
+        this.homeTeamScore = 0;
+        this.awayTeam = awayTeam;
+        this.awayTeamScore = 0;
+        this.matchStart = matchStart;
+        this.isFinished = false;
+    }
+
 
     @Override
     public String toString() {

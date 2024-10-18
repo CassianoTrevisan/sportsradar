@@ -7,7 +7,8 @@ import com.sportsradar.model.Match;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Set;
+import java.time.Instant;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,10 +25,24 @@ public class LiveScoreBoardServiceTest {
     }
 
     @Test
+    public void testImmutability() {
+        Match match = new Match(BRAZIL, ARGENTINA, Instant.now());
+        Match match2 = new Match(BRAZIL, ARGENTINA, Instant.now());
+
+        Instant matchStart = match.getMatchStart();
+        matchStart = Instant.now();//different now
+
+        match2.setAwayTeamScore(4);
+        match.setHomeTeamScore(7);
+
+        assertEquals(match2, match);
+    }
+
+    @Test
     public void testStartMatchSuccess() throws FailedToStartMatchException {
         liveScoreBoardService.startMatch(BRAZIL, ARGENTINA);
 
-        Set<Match> summary = liveScoreBoardService.getSummary();
+        List<Match> summary = liveScoreBoardService.getSummary();
         assertEquals(1, summary.size());
 
         Match match = summary.iterator().next();
@@ -53,7 +68,7 @@ public class LiveScoreBoardServiceTest {
 
         liveScoreBoardService.updateMatchScore(BRAZIL, ARGENTINA, 3, 2);
 
-        Set<Match> summary = liveScoreBoardService.getSummary();
+        List<Match> summary = liveScoreBoardService.getSummary();
         Match match = summary.iterator().next();
         assertEquals(3, match.getHomeTeamScore());
         assertEquals(2, match.getAwayTeamScore());

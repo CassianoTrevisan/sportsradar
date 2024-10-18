@@ -5,7 +5,7 @@ import com.sportsradar.exception.FailedToStartMatchException;
 import com.sportsradar.exception.FailedToUpdateMatchScoreException;
 import com.sportsradar.model.Match;
 
-import java.util.Set;
+import java.util.List;
 
 public interface LiveScoreBoardService {
     void startMatch(String homeTeam, String awayTeam) throws FailedToStartMatchException;
@@ -14,5 +14,5 @@ public interface LiveScoreBoardService {
 
     void finishMatch(String homeTeam, String awayTeam) throws FailedToFinishMatchException;
 
-    Set<Match> getSummary();
+    List<Match> getSummary();
 }

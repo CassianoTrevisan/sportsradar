@@ -4,15 +4,27 @@ import com.sportsradar.exception.FailedToFinishMatchException;
 import com.sportsradar.exception.FailedToStartMatchException;
 import com.sportsradar.exception.FailedToUpdateMatchScoreException;
 import com.sportsradar.model.Match;
+import lombok.extern.slf4j.Slf4j;
 
-import java.util.Set;
+import java.time.Instant;
+import java.util.List;
 
+import static com.sportsradar.datastore.DataStore.*;
 
-public class LiveScoreBoardServiceImpl implements LiveScoreBoardService{
+@Slf4j
+public class LiveScoreBoardServiceImpl implements LiveScoreBoardService {
+
+    public static final String A_MATCH_LIKE_THIS_ALREADY_EXISTS = "A match like this already exists!";
 
     @Override
     public void startMatch(String homeTeam, String awayTeam) throws FailedToStartMatchException {
-
+       log.info("Starting a new match.");
+        if(isMatchInProgress(homeTeam, awayTeam)){
+            log.error(A_MATCH_LIKE_THIS_ALREADY_EXISTS);
+            throw new FailedToStartMatchException(A_MATCH_LIKE_THIS_ALREADY_EXISTS);
+        }
+        addMatch(new Match(homeTeam, awayTeam, Instant.now()));
+        log.info("Match added successfully!");
     }
 
     @Override
@@ -26,7 +38,7 @@ public class LiveScoreBoardServiceImpl implements LiveScoreBoardService{
     }
 
     @Override
-    public Set<Match> getSummary() {
-        return Set.of();
+    public List<Match> getSummary() {
+        return getActiveMatchesOrderedBySumOfGoalsAndStartTime();
     }
 }
