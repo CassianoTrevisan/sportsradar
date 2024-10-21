@@ -1,6 +1,4 @@
-Here's a cleaned-up version of your notes, formatted in a `README.md` style, with additional clarity and structure:
 
----
 
 ## LiveScoreBoardService - Design Decisions
 
