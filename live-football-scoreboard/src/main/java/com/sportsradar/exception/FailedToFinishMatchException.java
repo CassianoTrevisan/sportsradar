@@ -1,7 +1,7 @@
 package com.sportsradar.exception;
 
 public class FailedToFinishMatchException extends Exception {
-    public FailedToFinishMatchException(String message, Throwable cause) {
-        super(message, cause);
+    public FailedToFinishMatchException(String message) {
+        super(message);
     }
 }
